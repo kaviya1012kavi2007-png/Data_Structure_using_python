@@ -1,0 +1,112 @@
+class song:
+    def __init__(self, songs):
+        self.songs = songs
+        self.next = None
+
+
+class PlayList:
+    def __init__(self):
+        self.head = None
+
+    def is_empty(self):
+        return self.head is None
+
+    def append(self, songs):
+        New_song = song(songs)
+        if self.head is None:
+            self.head = New_song
+            return
+        current = self.head
+        while current.next:
+            current = current.next
+        current.next = New_song
+
+    def prepend(self, songs):
+        New_song = song(songs)
+        New_song.next = self.head
+        self.head = New_song
+
+    # Insert in the middle
+    def insert(self, songs):
+        New_song = song(songs)
+
+        if self.head is None:
+            self.head = New_song
+            return
+
+        slow = self.head
+        fast = self.head
+
+        while fast.next != None and fast.next.next != None:
+            slow = slow.next
+            fast = fast.next.next
+
+        New_song.next = slow.next
+        slow.next = New_song
+
+    def delete(self, songs):
+        if self.head is None:
+            return
+
+        if self.head.songs == songs:
+            self.head = self.head.next
+            return
+
+        current = self.head
+        while current.next:
+            if current.next.songs == songs:
+                current.next = current.next.next
+                return
+            current = current.next
+
+    def search(self, songs):
+        current = self.head
+        while current:
+            if current.songs == songs:
+                return True
+            current = current.next
+        return False
+
+    def display(self):
+        current = self.head
+        while current:
+            print(current.songs, end=" -> ")
+            current = current.next
+        print("None")
+
+
+a = PlayList()
+
+n = int(input("Enter no.of songs: "))
+
+for i in range(n):
+    b = input("Enter name of the songs: ")
+    a.append(b)
+
+print("PlayList:")
+a.display()
+
+c = input("Enter song for prepend: ")
+a.prepend(c)
+print("Insertion at the beginning:")
+a.display()
+
+d = input("Enter song to insert in the middle: ")
+a.insert(d)
+print("Insertion at the middle:")
+a.display()
+
+e = input("Enter song for delete: ")
+a.delete(e)
+print("Deletion of the song:")
+a.display()
+
+f = input("Enter song for search: ")
+
+if a.search(f):
+    print("Song Found")
+else:
+    print("Song Not Found")
+
+print("Search for song:")
+a.display()
