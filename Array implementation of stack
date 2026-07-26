@@ -1,0 +1,45 @@
+# Array Implementation of Stack
+
+stack = []
+
+while True:
+    print("\n1. Push")
+    print("2. Pop")
+    print("3. Peek")
+    print("4. Display")
+    print("5. Exit")
+
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        book = input("Enter book title: ")
+        stack.append(book)
+        print(book, "pushed into the stack.")
+
+    elif choice == 2:
+        if len(stack) == 0:
+            print("Stack is empty")
+        else:
+            book = stack.pop()
+            print(book, "popped from the stack.")
+
+    elif choice == 3:
+        if len(stack) == 0:
+            print("Stack is empty")
+        else:
+            print("Top book:", stack[-1])
+
+    elif choice == 4:
+        if len(stack) == 0:
+            print("Stack is empty")
+        else:
+            print("Books in the stack:")
+            for book in reversed(stack):
+                print(book)
+
+    elif choice == 5:
+        print("Program terminated.")
+        break
+
+    else:
+        print("Invalid choice!")
