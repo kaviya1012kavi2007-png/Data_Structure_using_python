@@ -1,0 +1,48 @@
+class Book:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+def inorder(root, result):
+    if root:
+        inorder(root.left, result)
+        result.append(root.data)
+        inorder(root.right, result)
+def preorder(root, result):
+    if root:
+        result.append(root.data)
+        preorder(root.left, result)
+        preorder(root.right, result)
+def postorder(root, result):
+    if root:
+        postorder(root.left, result)
+        postorder(root.right, result)
+        result.append(root.data)
+root = Book(input("Enter the root book: "))
+root.left = Book(input("Enter the left book of root: "))
+root.right = Book(input("Enter the right book of root: "))
+root.left.left = Book(input("Enter the left book of " + root.left.data + ": "))
+root.left.right = Book(input("Enter the right book of " + root.left.data + ": "))
+while True:
+    print("\n\n1. Preorder")
+    print("2. Inorder")
+    print("3. Postorder")
+    print("4. Exiting the program")
+    ch = input("Enter your choice: ")
+    if ch == '1':
+        result = []
+        preorder(root, result)
+        print("Preorder:", ", ".join(result))
+    elif ch == '2':
+        result = []
+        inorder(root, result)
+        print("Inorder:", ", ".join(result))
+    elif ch == '3':
+        result = []
+        postorder(root, result)
+        print("Postorder:", ", ".join(result))
+    elif ch == '4':
+        print("Exiting the program")
+        break
+    else:
+        print("Invalid Input")
