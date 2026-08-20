@@ -1,0 +1,137 @@
+class Node:
+    def __init__(self, name, time, purpose):
+        self.name = name
+        self.time = time
+        self.purpose = purpose
+        self.left = None
+        self.right = None
+class BinarySearchTree:
+    def insert(self, root, name, time, purpose):
+        if root is None:
+            return Node(name, time, purpose)
+        if name < root.name:
+            root.left = self.insert(root.left, name, time, purpose)
+        elif name > root.name:
+            root.right = self.insert(root.right, name, time, purpose)
+        else:
+            print("Visitor already exists!")
+        return root
+    def search(self, root, name):
+        if root is None:
+            return None
+        if name == root.name:
+            return root
+        if name < root.name:
+            return self.search(root.left, name)
+        else:
+            return self.search(root.right, name)
+    def find_min(self, root):
+        current = root
+        while current.left is not None:
+            current = current.left
+        return current
+    def delete(self, root, name):
+        if root is None:
+            return None
+        if name < root.name:
+            root.left = self.delete(root.left, name)
+        elif name > root.name:
+            root.right = self.delete(root.right, name)
+        else:
+            if root.left is None and root.right is None:
+                return None
+            elif root.left is None:
+                return root.right
+            elif root.right is None:
+                return root.left
+            else:
+                temp = self.find_min(root.right)
+                root.name = temp.name
+                root.time = temp.time
+                root.purpose = temp.purpose
+                root.right = self.delete(root.right, temp.name)
+        return root
+    def inorder(self, root):
+        if root is not None:
+            self.inorder(root.left)
+            print(root.name, "|", root.time, "|", root.purpose)
+            self.inorder(root.right)
+    def preorder(self, root):
+        if root is not None:
+            print(root.name, "|", root.time, "|", root.purpose)
+            self.preorder(root.left)
+            self.preorder(root.right)
+    def postorder(self, root):
+        if root is not None:
+            self.postorder(root.left)
+            self.postorder(root.right)
+            print(root.name, "|", root.time, "|", root.purpose)
+    def count(self, root):
+        if root is None:
+            return 0
+        return 1 + self.count(root.left) + self.count(root.right)
+bst = BinarySearchTree()
+root = None
+while True:
+    print("\n========== VISITOR LOG BOOK ==========")
+    print("1. Insert a Log Entry")
+    print("2. Delete a Log Entry")
+    print("3. Search a Log Entry")
+    print("4. Inorder Traversal")
+    print("5. Preorder Traversal")
+    print("6. Postorder Traversal")
+    print("7. Count Total Entries")
+    print("8. Exit")
+    choice = int(input("Enter your choice: "))
+    if choice == 1:
+        name = input("Enter Visitor Name: ")
+        time = input("Enter Entry Time: ")
+        purpose = input("Enter Purpose: ")
+        root = bst.insert(root, name, time, purpose)
+        print("Log entry inserted successfully.")
+    elif choice == 2:
+        name = input("Enter Visitor Name to delete: ")
+        if bst.search(root, name) is not None:
+            root = bst.delete(root, name)
+            print("Log entry deleted successfully.")
+        else:
+            print("Visitor not found.")
+    elif choice == 3:
+        name = input("Enter Visitor Name to search: ")
+        result = bst.search(root, name)
+        if result is not None:
+            print("\nVisitor Found!")
+            print("Name :", result.name)
+            print("Time :", result.time)
+            print("Purpose :", result.purpose)
+        else:
+            print("Visitor not found.")
+    elif choice == 4:
+        print("\n--- Inorder Traversal (Sorted Order) ---")
+        if root is None:
+            print("Log book is empty.")
+        else:
+            print("Name | Time | Purpose")
+            bst.inorder(root)
+    elif choice == 5:
+        print("\n--- Preorder Traversal ---")
+        if root is None:
+            print("Log book is empty.")
+        else:
+            print("Name | Time | Purpose")
+            bst.preorder(root)
+    elif choice == 6:
+        print("\n--- Postorder Traversal ---")
+        if root is None:
+            print("Log book is empty.")
+        else:
+            print("Name | Time | Purpose")
+            bst.postorder(root)
+    elif choice == 7:
+        total = bst.count(root)
+        print("Total number of entries:", total)
+    elif choice == 8:
+        print("Exiting program...")
+        break
+    else:
+        print("Invalid choice! Please try again.")
